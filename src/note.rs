@@ -32,7 +32,7 @@ impl Note {
         let notes: Vec<Note> = serde_json::from_str(&data).ok()?;
         Some(notes)
     }
-    pub fn save_to_json(notes: &Vec<Self>) -> bool {
+    pub fn save_to_json(notes: &Vec<Self>) -> bool   {
         let json = match serde_json::to_string_pretty(notes) {
             Ok(j) => j,
             Err(_) => return false,
