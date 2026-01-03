@@ -1,8 +1,14 @@
 [package]
-name = "notes"
+name = "scribo"
 version = "0.1.0"
+authors = ["Taha Iravani <taha.iravani1@gmail.com>"]
 edition = "2024"
-
+description = "Simple CLI note-taking app written in Rust"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/tahairavani/scribo"
+homepage = "https://github.com/tahairavani/scribo"
+keywords = ["cli", "notes", "rust"]
+categories = ["command-line-utilities", "productivity"]
 
 [dependencies]
 chrono = "0.4.42"
@@ -12,3 +18,4 @@ serde_json = "1.0"
 clap = { version = "4", features = ["derive"] }
 comfy-table = "7.2.1"
 color-print = "0.3.7"
+dirs = "4.0"

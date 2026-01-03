@@ -26,18 +26,23 @@ impl Note {
             tag: tag,
         }
     }
-
+    //load from json file in ~/config/scribo.json
     pub fn load_from_json() -> Option<Vec<Note>> {
-        let data = fs::read_to_string("test.json").ok()?;
+        let config_dir = dirs::config_dir().unwrap();
+        let file_path = config_dir.join("scribo.json");
+        let data = fs::read_to_string(file_path).ok()?;
         let notes: Vec<Note> = serde_json::from_str(&data).ok()?;
         Some(notes)
     }
+    //save to json file in ~/config/scribo.json
     pub fn save_to_json(notes: &Vec<Self>) -> bool   {
+        let config_dir = dirs::config_dir().unwrap();
+        let file_path = config_dir.join("scribo.json");
         let json = match serde_json::to_string_pretty(notes) {
             Ok(j) => j,
             Err(_) => return false,
         };
 
-        fs::write("test.json", json).is_ok()
+        fs::write(file_path, json).is_ok()
     }
 }

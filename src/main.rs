@@ -1,9 +1,12 @@
 mod note;
+mod commands;
 use clap::{Parser, Subcommand};
 use comfy_table::Table;
 use note::Note;
+use commands::{add,list,delete,clear};
 use color_print::cprintln;
 #[derive(Parser)]
+
 #[command(name = "notes")]
 #[command(about = "Terminal note manager", long_about = None)]
 struct Cli {
@@ -32,54 +35,16 @@ fn main() {
     let cli = Cli::parse();
     match cli.command {
         Commands::List => {
-            let notes = match Note::load_from_json() {
-                Some(notes) => notes,
-                _ => panic!("not good"),
-            };
-            if notes.is_empty() {
-                cprintln!("<red>No notes found.</red>\n<yellow>Add one with:</yellow><green> notes add 'your first note'</green>")
-            } else {
-                let mut table = Table::new();
-                table.set_header(vec!["id", "content", "tag", "date","time"]);
-                for note in &notes {
-                    table.add_row(vec![
-                        note.id.to_string(),
-                        note.content.to_string(),
-                        note.tag.to_string(),
-                        note.date.to_string(),
-                        note.time.to_string(),
-                    ]);
-                }
-
-                println!("{table}");
-            }
+            list::run();
         }
         Commands::Add { content, tag } => {
-            let mut notes = match Note::load_from_json() {
-                Some(notes) => notes,
-                _ => panic!("not good"),
-            };
-            notes.push(Note::new(content, tag));
-            if Note::save_to_json(&notes) {
-                cprintln!("<green>your note added!</green>");
-            }
+            add::run(content, tag);
         }
         Commands::Delete { id } => {
-            let mut notes = match Note::load_from_json() {
-                Some(notes) => notes,
-                _ => panic!("not good"),
-            };
-            notes.retain(|n| n.id != id);
-            Note::save_to_json(&notes);
-            println!("note {id} deleted!");
+            delete::run(id);
         }
         Commands::Clear { yes } => {
-            if yes {
-                Note::save_to_json(&vec![]);
-                println!("all note cleared!")
-            } else {
-                cprintln!("<yellow>use --yes tag to confrim clear notes</yellow>")
-            }
+            clear::run(yes);
         }
     }
 }
