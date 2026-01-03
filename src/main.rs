@@ -7,7 +7,7 @@ use commands::{add,list,delete,clear};
 use color_print::cprintln;
 #[derive(Parser)]
 
-#[command(name = "notes")]
+#[command(name = "scribo")]
 #[command(about = "Terminal note manager", long_about = None)]
 struct Cli {
     #[command(subcommand)]
