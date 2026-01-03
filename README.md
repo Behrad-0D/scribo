@@ -36,8 +36,3 @@ scribo list
 scribo clear --yes
 ```
 
-
-```
-```
-```
-```
